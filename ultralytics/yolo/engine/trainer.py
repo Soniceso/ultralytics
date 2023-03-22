@@ -322,7 +322,7 @@ class BaseTrainer:
 
                 # Backward
 
-                torch.use_deterministic_algorithms(False)  # added
+                #torch.use_deterministic_algorithms(False)  # added
                 self.scaler.scale(self.loss).backward()
 
                 # Optimize - https://pytorch.org/docs/master/notes/amp_examples.html
