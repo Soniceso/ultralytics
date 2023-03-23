@@ -17,7 +17,7 @@ from ultralytics.yolo.utils.torch_utils import (fuse_conv_and_bn, fuse_deconv_an
                                                 intersect_dicts, make_divisible, model_info, scale_img, time_sync)
 from ultralytics.nn.SimAM import SimAM
 from ultralytics.nn.CBAM import CBAMBlock
-
+from ultralytics.nn.GAM import GAM_Attention
 class BaseModel(nn.Module):
     """
     The BaseModel class serves as a base class for all the models in the Ultralytics YOLO family.
@@ -450,7 +450,7 @@ def parse_model(d, ch, verbose=True):  # model_dict, input_channels(3)
                 n = 1
         elif m is nn.BatchNorm2d:
             args = [ch[f]]
-        elif m in {CBAMBlock}:
+        elif m in {CBAMBlock, GAM_Attention}:
             args = [ch[f], *args]
         elif m is Concat:
             c2 = sum(ch[x] for x in f)
