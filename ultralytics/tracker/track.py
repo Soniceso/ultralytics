@@ -3,9 +3,7 @@
 import torch
 
 from ultralytics.yolo.utils import IterableSimpleNamespace, yaml_load
-from ultralytics.yolo.utils.checks import check_requirements, check_yaml
-
-check_requirements('lap')  # for linear_assignment
+from ultralytics.yolo.utils.checks import check_yaml
 
 from .trackers import BOTSORT, BYTETracker
 
@@ -35,10 +33,9 @@ def on_predict_postprocess_end(predictor):
         tracks = predictor.trackers[i].update(det, im0s[i])
         if len(tracks) == 0:
             continue
+        idx = tracks[:, -1].tolist()
+        predictor.results[i] = predictor.results[i][idx]
         predictor.results[i].update(boxes=torch.as_tensor(tracks[:, :-1]))
-        if predictor.results[i].masks is not None:
-            idx = tracks[:, -1].tolist()
-            predictor.results[i].masks = predictor.results[i].masks[idx]
 
 
 def register_tracker(model):
