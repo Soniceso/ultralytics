@@ -145,7 +145,7 @@ def get_params():
         'cfg': '/kaggle/input/data23/yolov8sC3.yaml',
         'device': 'cuda:0',
         'method': 'GradCAM', # GradCAMPlusPlus, GradCAM, XGradCAM
-        'layer': 'model.model[7]',
+        'layer': 'model.model[8]',
         'backward_type': 'all', # class, box, all
         'conf_threshold': 0.6, # 0.6
         'ratio': 0.02 # 0.02-0.1
