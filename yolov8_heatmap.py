@@ -154,4 +154,4 @@ def get_params():
 
 if __name__ == '__main__':
     model = yolov8_heatmap(**get_params())
-    model(r'2 (37)_1650424698.jpg', 'result')
+    model(r'/kaggle/input/v5resume/1548.jpg', 'result')
