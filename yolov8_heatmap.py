@@ -141,8 +141,8 @@ class yolov8_heatmap:
 
 def get_params():
     params = {
-        'weight': 'yolov8m.pt',
-        'cfg': 'ultralytics/models/v8/yolov8m.yaml',
+        'weight': '/kaggle/input/data23/best.pt',
+        'cfg': '/kaggle/input/data23/yolov8sC3.yaml',
         'device': 'cuda:0',
         'method': 'GradCAM', # GradCAMPlusPlus, GradCAM, XGradCAM
         'layer': 'model.model[9]',
@@ -154,4 +154,4 @@ def get_params():
 
 if __name__ == '__main__':
     model = yolov8_heatmap(**get_params())
-    model(r'20230117113354.jpg', 'result')
+    model(r'/kaggle/input/v5resume/images/images', 'result')
