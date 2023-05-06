@@ -145,7 +145,7 @@ def get_params():
         'cfg': '/kaggle/input/data23/yolov8sC3.yaml',
         'device': 'cuda:0',
         'method': 'GradCAM', # GradCAMPlusPlus, GradCAM, XGradCAM
-        'layer': 'model.model[9]',
+        'layer': 'model.model[7]',
         'backward_type': 'all', # class, box, all
         'conf_threshold': 0.6, # 0.6
         'ratio': 0.02 # 0.02-0.1
@@ -154,4 +154,4 @@ def get_params():
 
 if __name__ == '__main__':
     model = yolov8_heatmap(**get_params())
-    model(r'/kaggle/input/v5resume/images/images/1---Copy_jpg.rf.09281e28089d4455c0b5695ec6e390d7.jpg', 'result')
+    model(r'/kaggle/input/v5resume/images/images/49-car-parking-lot-viewed-above-aerial-view-top-129426684-Copy_jpg.rf.bf338c193537288e7ffd18b18d857091.jpg', 'result')
