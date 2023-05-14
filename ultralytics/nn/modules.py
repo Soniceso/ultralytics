@@ -121,11 +121,12 @@ class TransformerBlock(nn.Module):
 class Bottleneck(nn.Module):
     # Standard bottleneck
     def __init__(self, c1, c2, shortcut=True, g=1, k=(3, 3), e=0.5):  # ch_in, ch_out, shortcut, groups, kernels, expand
-        super().__init__()
+        super(Bottleneck, self).__init__()
         c_ = int(c2 * e)  # hidden channels
         self.cv1 = Conv(c1, c_, k[0], 1)
         self.cv2 = Conv(c_, c2, k[1], 1, g=g)
         self.add = shortcut and c1 == c2
+        self.attention = simam_module(channels=c2)
 
     def forward(self, x):
         return x + self.cv2(self.cv1(x)) if self.add else self.cv2(self.cv1(x))
@@ -500,3 +501,28 @@ class Classify(nn.Module):
             x = torch.cat(x, 1)
         x = self.linear(self.drop(self.pool(self.conv(x)).flatten(1)))
         return x if self.training else x.softmax(1)
+class simam_module(torch.nn.Module):
+    def __init__(self, channels=None, e_lambda=1e-4):
+        super(simam_module, self).__init__()
+ 
+        self.activaton = nn.Sigmoid()
+        self.e_lambda = e_lambda
+ 
+    def __repr__(self):
+        s = self.__class__.__name__ + '('
+        s += ('lambda=%f)' % self.e_lambda)
+        return s
+ 
+    @staticmethod
+    def get_module_name():
+        return "simam"
+ 
+    def forward(self, x):
+        b, c, h, w = x.size()
+ 
+        n = w * h - 1
+ 
+        x_minus_mu_square = (x - x.mean(dim=[2, 3], keepdim=True)).pow(2)
+        y = x_minus_mu_square / (4 * (x_minus_mu_square.sum(dim=[2, 3], keepdim=True) / n + self.e_lambda)) + 0.5
+ 
+        return x * self.activaton(y)
