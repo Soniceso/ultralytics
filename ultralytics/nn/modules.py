@@ -129,7 +129,7 @@ class Bottleneck(nn.Module):
         self.attention = simam_module(channels=c2)
 
     def forward(self, x):
-        return x + self.cv2(self.cv1(x)) if self.add else self.cv2(self.cv1(x))
+        return x + self.attention(self.cv2(self.cv1(x))) if self.add else self.cv2(self.cv1(x))
 
 
 class BottleneckCSP(nn.Module):
