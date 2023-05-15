@@ -15,7 +15,7 @@ from ultralytics.yolo.utils import DEFAULT_CFG_DICT, DEFAULT_CFG_KEYS, LOGGER, c
 from ultralytics.yolo.utils.checks import check_requirements, check_suffix, check_yaml
 from ultralytics.yolo.utils.torch_utils import (fuse_conv_and_bn, fuse_deconv_and_bn, initialize_weights,
                                                 intersect_dicts, make_divisible, model_info, scale_img, time_sync)
-from ultralytics.nn.CBAM import CBAMBlock
+from ultralytics.nn.Biformer import BiLevelRoutingAttention, Attention, AttentionLePE
 
 class BaseModel(nn.Module):
     """
@@ -475,7 +475,7 @@ def parse_model(d, ch, verbose=True):  # model_dict, input_channels(3)
             args = [ch[f]]
         elif m is Concat:
             c2 = sum(ch[x] for x in f)
-        elif m in {CBAMBlock}:
+        elif m in {BiLevelRoutingAttention, Attention, AttentionLePE}:
             args = [ch[f], *args]
         elif m in (Detect, Segment, Pose):
             args.append([ch[x] for x in f])
