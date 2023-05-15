@@ -16,7 +16,7 @@ from ultralytics.yolo.utils.checks import check_requirements, check_suffix, chec
 from ultralytics.yolo.utils.torch_utils import (fuse_conv_and_bn, fuse_deconv_and_bn, initialize_weights,
                                                 intersect_dicts, make_divisible, model_info, scale_img, time_sync)
 from ultralytics.nn.CBAM import CBAMBlock
-
+from ultralytics.nn.SimAM import SimAM
 class BaseModel(nn.Module):
     """
     The BaseModel class serves as a base class for all the models in the Ultralytics YOLO family.
